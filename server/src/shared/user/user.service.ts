@@ -10,6 +10,8 @@ export class UserService {
       password: 'crypto',
       name: username,
       login: `${username}@test.com`,
+      createdAt: new Date(),
+      updatedAt: new Date(),
     });
   }
 }
