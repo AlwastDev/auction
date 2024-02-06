@@ -5,6 +5,7 @@ import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 
 import { configuration } from './config';
 import { BaseModule } from './base';
+import { AuthModule } from './auth';
 
 @Module({
   imports: [
@@ -24,7 +25,7 @@ import { BaseModule } from './base';
     }),
 
     // Service Modules
-    BaseModule,
+    BaseModule, AuthModule
   ],
   providers: [
     {
