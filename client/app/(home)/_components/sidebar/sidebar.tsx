@@ -2,8 +2,9 @@
 
 import { useState } from 'react';
 
-import * as S from './sidebar.styled';
 import { Range } from '@/components/range/range';
+
+import * as S from './sidebar.styled';
 
 export const Sidebar = () => {
   const [minValue, setMinValue] = useState<number>(0);
