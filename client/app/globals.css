@@ -16,3 +16,15 @@ a {
   color: inherit;
   text-decoration: none;
 }
+
+main {
+  width: 100%;
+  max-width: 97%;
+  margin: 0 auto;
+}
+
+@media screen and (min-width: 1580px){
+  main {
+    max-width: 1530px;
+  }
+}
