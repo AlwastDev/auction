@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Montserrat } from 'next/font/google';
 import { Toaster } from 'sonner';
 
 import StyledComponentsRegistry from '../lib/registry';
@@ -7,7 +7,7 @@ import StoreProvider from '../lib/store-provider';
 
 import './globals.css';
 
-const inter = Inter({ subsets: ['latin'] });
+const montserrat = Montserrat({ weight: ['400', '500', '600', '700'], subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Auction',
@@ -22,9 +22,10 @@ export default function RootLayout({
   return (
     <StoreProvider>
       <html lang="en">
-        <body className={inter.className}>
+        <body className={montserrat.className}>
           <StyledComponentsRegistry>
-            {children}
+            <header></header>
+            <main>{children}</main>
             <Toaster />
           </StyledComponentsRegistry>
         </body>
