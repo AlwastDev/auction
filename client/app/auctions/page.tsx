@@ -1,7 +1,9 @@
 'use client';
 
 import { useState } from 'react';
+
 import { Range } from '@/components/range/range';
+
 import {
   FilterContainer,
   SearchSection,
@@ -14,7 +16,7 @@ import {
   Dash,
   SubmitFilterButton,
   ContentSection,
-} from '@/app/auctions/auctions.styled';
+} from './auctions.styled';
 
 export default function Page() {
   const [minValue, setMinValue] = useState<number>(0);

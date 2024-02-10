@@ -1,5 +1,6 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { toast } from 'sonner';
+import { deleteCookie, getCookie, setCookie } from '@/actions/cookies';
 
 type ResponseData<T> = {
   message: string;
@@ -24,14 +25,15 @@ const handleError = (error: AxiosError) => {
 };
 
 const api = {
-  isExistAccessToken: () => {
-    console.log(axiosInstance.defaults.headers.common['Authorization']);
-    return !!axiosInstance.defaults.headers.common['Authorization'];
+  isExistAccessToken: async () => {
+    return !!(await getCookie('accessToken'));
   },
-  addAccessTokenToHeader: (accessToken: string) => {
+  addAccessTokenToHeader: async (accessToken: string) => {
+    await setCookie('accessToken', accessToken, { expires: 7 });
     axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
   },
-  removeAccessTokenFromHeader: () => {
+  removeAccessTokenFromHeader: async () => {
+    await deleteCookie('accessToken');
     delete axiosInstance.defaults.headers.common['Authorization'];
   },
   get: async <T = null>(
