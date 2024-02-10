@@ -1,13 +1,7 @@
-"use client";
+'use client';
 
-import {
-  FC,
-  useCallback,
-  useEffect,
-  useRef,
-  useState
-} from "react";
-import { Container, RangeInput, Slider } from "@/components/range/range.styled";
+import { FC, useCallback, useEffect, useRef } from 'react';
+import { Container, RangeInput, Slider } from '@/components/range/range.styled';
 
 interface IRange {
   min: number;
@@ -16,18 +10,14 @@ interface IRange {
   maxValue: number;
   setMinValue: (value: number) => void;
   setMaxValue: (value: number) => void;
-  onChange: (a: { min: number, max: number }) => void;
 }
 
-export const Range: FC<IRange> = ({min, max, maxValue, minValue, setMinValue, setMaxValue, onChange}) => {
+export const Range: FC<IRange> = ({ min, max, maxValue, minValue, setMinValue, setMaxValue }) => {
   const minValRef = useRef(min);
   const maxValRef = useRef(max);
   const range = useRef<HTMLDivElement>(null);
 
-  const getPercent = useCallback(
-    (value: number) => Math.round(((value - min) / (max - min)) * 100),
-    [min, max]
-  );
+  const getPercent = useCallback((value: number) => Math.round(((value - min) / (max - min)) * 100), [min, max]);
 
   useEffect(() => {
     const minPercent = getPercent(minValue);
@@ -60,7 +50,7 @@ export const Range: FC<IRange> = ({min, max, maxValue, minValue, setMinValue, se
           setMinValue(value);
           minValRef.current = value;
         }}
-        style={{ ...(minValue > max - 100 && { zIndex: "5" }) }}
+        style={{ ...(minValue > max - 100 && { zIndex: '5' }) }}
         position="left"
       />
       <RangeInput
@@ -84,4 +74,4 @@ export const Range: FC<IRange> = ({min, max, maxValue, minValue, setMinValue, se
       </Slider>
     </Container>
   );
-}
+};

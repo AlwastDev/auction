@@ -1,5 +1,5 @@
-"use client";
-import styled from "styled-components";
+'use client';
+import styled from 'styled-components';
 
 import { colors } from '@/lib/colors';
 
@@ -18,6 +18,7 @@ export const FilterContainer = styled.div`
   border-radius: 15px;
   background-color: ${colors.blue};
   width: 441px;
+  height: max-content;
 `;
 
 export const FilterTitles = styled.div`
@@ -39,14 +40,14 @@ export const FilterSecondTitle = styled.h3`
   font-size: 22px;
   font-weight: 500;
   display: block;
-`
+`;
 
 export const FilterInputs = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 4px;
-  width: 260px;
+  width: 100%;
 `;
 
 export const SubmitFilterContainer = styled.div`
@@ -54,6 +55,7 @@ export const SubmitFilterContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  gap: 55px;
   margin-top: 28px;
 `;
 
@@ -69,7 +71,7 @@ export const SubmitFilterButton = styled.button`
 `;
 
 export const FilterInput = styled.input`
-  width: 115px;
+  max-width: 115px;
   padding: 6px 10px;
   border-radius: 10px;
   outline: none;
@@ -82,4 +84,15 @@ export const Dash = styled.div`
   width: 20px;
   height: 2px;
   background-color: ${colors.black};
+`;
+
+export const ContentSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  border-radius: 15px;
+  width: 100%;
+  min-height: 500px;
+  background-color: ${colors.blue};
+  padding: 63px 30px;
 `;
