@@ -25,7 +25,8 @@ import { AuthModule } from './auth';
     }),
 
     // Service Modules
-    BaseModule, AuthModule
+    BaseModule,
+    AuthModule,
   ],
   providers: [
     {

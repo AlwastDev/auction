@@ -26,31 +26,16 @@
     "ecmaFeatures": {
       "jsx": true
     },
-    "module": [
-      "components"
-    ],
-    "project": [
-      "tsconfig.json"
-    ],
+    "module": ["components"],
+    "project": ["tsconfig.json"],
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "ignorePatterns": [
-    "node_modules/*",
-    "/.next"
-  ],
-  "plugins": [
-    "react",
-    "@typescript-eslint",
-    "prettier"
-  ],
+  "ignorePatterns": ["node_modules/*", "/.next"],
+  "plugins": ["react", "@typescript-eslint", "prettier"],
   "overrides": [
     {
-      "files": [
-        "*.ts",
-        "*.tsx",
-        "*.js"
-      ],
+      "files": ["*.ts", "*.tsx", "*.js"],
       "parser": "@typescript-eslint/parser"
     }
   ],

@@ -1,6 +1,6 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-import { colors } from "@/lib/colors";
+import { colors } from '@/lib/colors';
 
 export const Container = styled.div`
   position: relative;
@@ -55,15 +55,14 @@ export const Slider = styled.div`
   }
 `;
 
-
-export const RangeInput = styled.input<{position: 'left' | 'right'}>`
+export const RangeInput = styled.input<{ position: 'left' | 'right' }>`
   pointer-events: none;
   position: absolute;
   height: 0;
   width: 100%;
   outline: none;
-  z-index: ${({position}) => position === 'left' ? 3 : 4};
-  
+  z-index: ${({ position }) => (position === 'left' ? 3 : 4)};
+
   &,
   &::-webkit-slider-thumb {
     -webkit-appearance: none;

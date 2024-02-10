@@ -8,12 +8,12 @@ type Response = {
   user: User;
 };
 
-export const login = async (login: string, password: string) => {
-  const { data } = await api.post(`${route}/login`, { login, password });
+export const onLogin = async (login: string, password: string) => {
+  const {
+    data: { data: response },
+  } = await api.post<Response>(`${route}/login`, { login, password });
 
-  const response = data as Response;
-
-  if (!response || !response.token) {
+  if (!response) {
     throw new Error('Auth error');
   }
 
@@ -22,12 +22,12 @@ export const login = async (login: string, password: string) => {
   return response.user;
 };
 
-export const register = async (login: string, password: string, confirmPassword: string) => {
-  const { data } = await api.post(`${route}/register`, { login, password, confirmPassword });
+export const onRegister = async (login: string, password: string, confirmPassword: string) => {
+  const {
+    data: { data: response },
+  } = await api.post<Response>(`${route}/registration`, { login, password, confirmPassword });
 
-  const response = data as Response;
-
-  if (!response || !response.token) {
+  if (!response) {
     throw new Error('Auth error');
   }
 
@@ -36,6 +36,6 @@ export const register = async (login: string, password: string, confirmPassword:
   return response.user;
 };
 
-export const logout = async () => {
+export const onLogout = async () => {
   api.removeAccessTokenFromHeader();
 };

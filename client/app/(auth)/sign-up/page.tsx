@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
 import { Input } from '@/components/input/input';
-import { onLogin } from '@/lib/services/auth-service';
+import { onRegister } from '@/lib/services/auth-service';
 import { Wrapper } from '../_components/wrapper/wrapper';
 import { validateEmail } from '@/lib/utils';
 
@@ -13,13 +13,14 @@ export default function Page() {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    if (!email || !password) {
+    if (!email || !password || !confirmPassword) {
       return toast.error('Email or password is empty');
     }
 
@@ -27,8 +28,12 @@ export default function Page() {
       return toast.error('Email is not valid');
     }
 
+    if (password !== confirmPassword) {
+      return toast.error('Passwords must be the same');
+    }
+
     startTransition(() => {
-      onLogin(email, password).then(() => {
+      onRegister(email, password, confirmPassword).then(() => {
         router.push('/');
       });
     });
@@ -47,6 +52,12 @@ export default function Page() {
         label="Password"
         placeholder="**************"
         onChange={(event) => setPassword(event.target.value)}
+      />
+      <Input
+        type="password"
+        label="Confirm password"
+        placeholder="**************"
+        onChange={(event) => setConfirmPassword(event.target.value)}
       />
     </Wrapper>
   );

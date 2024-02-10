@@ -23,7 +23,7 @@ main {
   margin: 0 auto;
 }
 
-@media screen and (min-width: 1580px){
+@media screen and (min-width: 1580px) {
   main {
     max-width: 1530px;
   }

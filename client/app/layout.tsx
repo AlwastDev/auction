@@ -24,8 +24,7 @@ export default function RootLayout({
       <html lang="en">
         <body className={montserrat.className}>
           <StyledComponentsRegistry>
-            <header></header>
-            <main>{children}</main>
+            {children}
             <Toaster theme="light" position="bottom-center" />
           </StyledComponentsRegistry>
         </body>

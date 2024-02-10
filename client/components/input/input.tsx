@@ -5,11 +5,17 @@ import { FC, InputHTMLAttributes } from 'react';
 import * as S from './input.styled';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  children?: React.ReactNode;
+  label?: string;
+  gap?: string;
   width?: string;
   height?: string;
 }
 
-export const Input: FC<InputProps> = (props) => {
-  return <S.Input {...props}>{props.children}</S.Input>;
+export const Input: FC<InputProps> = ({ label, gap, ...rest }) => {
+  return (
+    <S.InputWrapper gap={gap}>
+      {label && <S.Label htmlFor={label}>{label}</S.Label>}
+      <S.Input id={label} {...rest} />
+    </S.InputWrapper>
+  );
 };
