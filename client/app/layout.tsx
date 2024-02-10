@@ -26,7 +26,7 @@ export default function RootLayout({
           <StyledComponentsRegistry>
             <header></header>
             <main>{children}</main>
-            <Toaster />
+            <Toaster theme="light" position="bottom-center" />
           </StyledComponentsRegistry>
         </body>
       </html>
