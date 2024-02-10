@@ -16,15 +16,25 @@ export interface User extends Entity {
 }
 
 export interface Auction extends Entity {
-  description: string;
   status: AuctionStatus;
-  rate: number;
-  mainImage: string;
+  userId: string;
+  description: string;
+
+  lastRate: Rate;
+  rates: Rate[];
+
+  mainImage: Image;
+  images: Image[];
+
   createdAt: Date;
 }
 
 export interface Rate extends Entity {
-  rateOwner: string;
+  userId: string;
   rate: number;
   createdAt: Date;
+}
+
+export interface Image extends Entity {
+  source: string;
 }
