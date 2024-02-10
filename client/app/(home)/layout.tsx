@@ -6,7 +6,7 @@ import { ButtonContainer } from './_components/button-container/button-container
 
 import * as S from './layout.styled';
 
-const HomeLayout = async ({ children }: { children: React.ReactNode }) => {
+export default async function HomeLayout({ children }: { children: React.ReactNode }) {
   const isAuth = await api.isExistAccessToken();
 
   if (!isAuth) {
@@ -22,6 +22,4 @@ const HomeLayout = async ({ children }: { children: React.ReactNode }) => {
       <main>{children}</main>
     </>
   );
-};
-
-export default HomeLayout;
+}

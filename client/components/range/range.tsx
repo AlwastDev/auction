@@ -51,7 +51,7 @@ export const Range: FC<IRange> = ({ min, max, maxValue, minValue, setMinValue, s
           minValRef.current = value;
         }}
         style={{ ...(minValue > max - 100 && { zIndex: '5' }) }}
-        position="left"
+        $position="left"
       />
       <RangeInput
         type="range"
@@ -63,7 +63,7 @@ export const Range: FC<IRange> = ({ min, max, maxValue, minValue, setMinValue, s
           setMaxValue(value);
           maxValRef.current = value;
         }}
-        position="right"
+        $position="right"
       />
 
       <Slider>

@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { toast } from 'sonner';
+
 import { deleteCookie, getCookie, setCookie } from '@/actions/cookies';
+import { redirect } from 'next/navigation';
 
 type ResponseData<T> = {
   message: string;
@@ -11,16 +12,37 @@ const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_API_URL,
   headers: {
     'Content-Type': 'application/json',
+    'ngrok-skip-browser-warning': 'true',
   },
 });
 
-const handleError = (error: AxiosError) => {
-  toast.error('API ERROR');
+axiosInstance.interceptors.request.use(
+  async (config) => {
+    const accessToken = await getCookie('accessToken');
+
+    if (accessToken) {
+      config.headers['Authorization'] = `Bearer ${accessToken}`;
+    }
+
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  },
+);
+
+const handleError = async (error: AxiosError) => {
+  if (error.response?.status === 401) {
+    await api.removeAccessTokenFromHeader();
+    redirect('/sign-in');
+  }
+
   return Promise.reject({
-    response: error.response,
-    message: 'API Error',
-    request: error.request,
-    config: error.config,
+    status: error.response?.status,
+    message: error.message,
+    headers: error.config?.headers,
+    data: error.config?.data,
+    url: error.request.res.responseUrl,
   });
 };
 
@@ -43,7 +65,7 @@ const api = {
     try {
       return await axiosInstance.get<ResponseData<T>>(url, config);
     } catch (error) {
-      return handleError(error as AxiosError);
+      return await handleError(error as AxiosError);
     }
   },
   post: async <T = null>(
@@ -54,7 +76,7 @@ const api = {
     try {
       return await axiosInstance.post<ResponseData<T>>(url, data, config);
     } catch (error) {
-      return handleError(error as AxiosError);
+      return await handleError(error as AxiosError);
     }
   },
   put: async <T = null>(
@@ -65,7 +87,7 @@ const api = {
     try {
       return await axiosInstance.put<ResponseData<T>>(url, data, config);
     } catch (error) {
-      return handleError(error as AxiosError);
+      return await handleError(error as AxiosError);
     }
   },
   patch: async <T = null>(
@@ -76,7 +98,7 @@ const api = {
     try {
       return await axiosInstance.patch<ResponseData<T>>(url, data, config);
     } catch (error) {
-      return handleError(error as AxiosError);
+      return await handleError(error as AxiosError);
     }
   },
   delete: async <T = null>(
@@ -86,7 +108,7 @@ const api = {
     try {
       return await axiosInstance.delete<ResponseData<T>>(url, config);
     } catch (error) {
-      return handleError(error as AxiosError);
+      return await handleError(error as AxiosError);
     }
   },
 };

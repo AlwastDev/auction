@@ -1,52 +1,18 @@
-'use client';
+import { Sidebar } from './_components/sidebar/sidebar';
 
-import { useState } from 'react';
+import * as S from './page.styled';
 
-import { Range } from '@/components/range/range';
+export default async function Page() {
+  // const auctions = await getAuction('11341351-fa9e-48fd-a86e-c7d99b7cb580');
 
-import {
-  FilterContainer,
-  SearchSection,
-  FilterTitles,
-  FilterMainTitle,
-  FilterSecondTitle,
-  SubmitFilterContainer,
-  FilterInputs,
-  FilterInput,
-  Dash,
-  SubmitFilterButton,
-  ContentSection,
-} from './auctions.styled';
+  // await createAuction('sadsadsad', 1000);
 
-export default function Page() {
-  const [minValue, setMinValue] = useState<number>(0);
-  const [maxValue, setMaxValue] = useState<number>(1000);
+  // console.log(auctions);
 
   return (
-    <SearchSection>
-      <FilterContainer>
-        <FilterTitles>
-          <FilterMainTitle>Фильтр:</FilterMainTitle>
-          <FilterSecondTitle>Ставка, грн:</FilterSecondTitle>
-        </FilterTitles>
-        <Range
-          min={0}
-          max={1000}
-          minValue={minValue}
-          maxValue={maxValue}
-          setMaxValue={setMaxValue}
-          setMinValue={setMinValue}
-        />
-        <SubmitFilterContainer>
-          <FilterInputs>
-            <FilterInput type="text" value={minValue} />
-            <Dash />
-            <FilterInput type="text" value={maxValue} />
-          </FilterInputs>
-          <SubmitFilterButton>ok</SubmitFilterButton>
-        </SubmitFilterContainer>
-      </FilterContainer>
-      <ContentSection>sadf</ContentSection>
-    </SearchSection>
+    <S.SearchSection>
+      <Sidebar />
+      <S.ContentSection></S.ContentSection>
+    </S.SearchSection>
   );
 }

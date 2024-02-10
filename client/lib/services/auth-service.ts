@@ -17,7 +17,7 @@ export const onLogin = async (login: string, password: string) => {
     throw new Error('Auth error');
   }
 
-  api.addAccessTokenToHeader(response.token);
+  await api.addAccessTokenToHeader(response.token);
 
   return response.user;
 };
@@ -31,11 +31,11 @@ export const onRegister = async (login: string, password: string, confirmPasswor
     throw new Error('Auth error');
   }
 
-  api.addAccessTokenToHeader(response.token);
+  await api.addAccessTokenToHeader(response.token);
 
   return response.user;
 };
 
 export const onLogout = async () => {
-  api.removeAccessTokenFromHeader();
+  await api.removeAccessTokenFromHeader();
 };

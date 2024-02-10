@@ -1,21 +1,27 @@
 import qs from 'query-string';
 
 import { api } from '@/lib/services/api';
-import { Auction } from '@/lib/models';
-import { toast } from 'sonner';
+import { Auction, AuctionStatus } from '@/lib/models';
 
 const route = 'auctions';
 
-export const getAuctions = async (page: number, limit: number, minRate?: number, maxRate?: number) => {
+export const getAuctions = async (
+  page: number,
+  limit: number,
+  minRate?: number,
+  maxRate?: number,
+): Promise<Auction[]> => {
   const url = qs.stringifyUrl(
     {
-      url: `${route}`,
-      query: { page, limit, minRate, maxRate },
+      url: `/${route}`,
+      query: { page, limit, minRate, maxRate, getLastRate: true, getMainImage: true },
     },
     { skipEmptyString: true },
   );
 
-  const { data: auctions } = await api.get<Auction[]>(url);
+  const {
+    data: { data: auctions },
+  } = await api.get<Auction[]>(url);
 
   if (!auctions) {
     throw new Error('Auth error');
@@ -24,22 +30,42 @@ export const getAuctions = async (page: number, limit: number, minRate?: number,
   return auctions;
 };
 
-export const createAuction = async (description: string, initialRate: number, images: string[]) => {
-  const response = await api.post(`${route}`, { description, initialRate, images });
+export const getAuction = async (id: string): Promise<Auction> => {
+  const url = qs.stringifyUrl(
+    {
+      url: `${route}/${id}`,
+      query: { getLastRate: true, getImages: true },
+    },
+    { skipEmptyString: true },
+  );
 
-  if (!response || !response.data) {
+  const {
+    data: { data: auction },
+  } = await api.get<Auction>(url);
+
+  if (!auction) {
     throw new Error('Auth error');
   }
 
-  toast.success('The auction was successfully created');
+  return auction;
 };
 
-export const editAuction = async (id: string, description: string, initialRate: number, images: string[]) => {
-  const response = await api.put(`${route}`, { id, description, initialRate, images });
+export const createAuction = async (description: string, initialRate: number) => {
+  const response = await api.post(`${route}`, { description, initialRate, status: AuctionStatus.CREATED });
 
   if (!response || !response.data) {
     throw new Error('Auth error');
   }
 
-  toast.success('The auction was successfully edited');
+  return response;
+};
+
+export const editAuction = async (id: string, description: string) => {
+  const response = await api.patch(`${route}/${id}`, { description });
+
+  if (!response || !response.data) {
+    throw new Error('Auth error');
+  }
+
+  return response;
 };

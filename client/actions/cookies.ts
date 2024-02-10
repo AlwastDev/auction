@@ -16,7 +16,7 @@ export async function setCookie(name: string, value: string, options: { expires:
 
 export async function getCookie(name: string) {
   const cookieStore = cookies();
-  return cookieStore.getAll().find((cookie) => cookie.name === name);
+  return cookieStore.getAll().find((cookie) => cookie.name === name)?.value;
 }
 
 export async function deleteCookie(name: string) {
