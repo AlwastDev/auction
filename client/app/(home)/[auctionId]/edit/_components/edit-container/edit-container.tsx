@@ -93,8 +93,6 @@ export const EditContainer: FC<EditContainerProps> = ({ auction }) => {
     setRate(auction.lastRate.rate);
   };
 
-  console.log(status);
-
   return (
     <S.FormContainer onSubmit={handleSubmit}>
       <S.Container>
