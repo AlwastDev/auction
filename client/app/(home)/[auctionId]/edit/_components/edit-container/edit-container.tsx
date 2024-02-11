@@ -7,6 +7,7 @@ import { toast } from 'sonner';
 
 import { Auction, AuctionStatus, Image as IImage } from '@/lib/models';
 import { enumToArrayValues, toBase64 } from '@/lib/utils';
+import { editAuction } from '@/lib/services/auction-service';
 import { Input } from '@/components/input/input';
 import { UploadButton } from '@/components/upload-button/upload-button';
 import { Button } from '@/components/button/button';
@@ -26,7 +27,11 @@ export const EditContainer: FC<EditContainerProps> = ({ auction }) => {
   const [description, setDescription] = useDebounceValue(auction.description, 50);
   const [rate, setRate] = useDebounceValue(auction.lastRate.rate, 50);
   const [status, setStatus] = useState<AuctionStatus>(auction.status);
-  const [images, setImages] = useState<IImage[]>([...auction.images]);
+  const [images, setImages] = useState<IImage[]>([
+    ...auction.images.map((image) => {
+      return { id: image.id, source: image.source };
+    }),
+  ]);
 
   const handleImages = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const maxSizeInBytes = 5 * 1024 * 1024; //5 MB;
@@ -66,19 +71,29 @@ export const EditContainer: FC<EditContainerProps> = ({ auction }) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // await editAuction(description, images).then((auction) => {
-    //   if (auction.data) {
-    //     router.push(`/${auction.id}`);
-    //   }
-    // });
+    if (status === AuctionStatus.CREATED) {
+      return toast.error('The status cannot be "Created"');
+    }
+
+    await editAuction(auction.id, description, status, images, rate).then((response) => {
+      if (response.data) {
+        router.push(`/${auction.id}`);
+      }
+    });
   };
 
   const handleClear = () => {
     setDescription(auction.description);
-    setImages(auction.images);
+    setImages([
+      ...auction.images.map((image) => {
+        return { id: image.id, source: image.source };
+      }),
+    ]);
     setStatus(auction.status);
     setRate(auction.lastRate.rate);
   };
+
+  console.log(status);
 
   return (
     <S.FormContainer onSubmit={handleSubmit}>
@@ -98,14 +113,19 @@ export const EditContainer: FC<EditContainerProps> = ({ auction }) => {
             defaultValue={rate}
             onChange={(event) => setRate(Number(event.target.value))}
           />
-          <Select name="Status" defaultValue={status} values={enumToArrayValues(AuctionStatus)} />
+          <Select
+            name="Status"
+            defaultValue={AuctionStatus[status]}
+            values={enumToArrayValues(AuctionStatus)}
+            onChange={(e) => setStatus(AuctionStatus[e.target.value.toUpperCase() as keyof typeof AuctionStatus])}
+          />
         </S.InputsContainer>
         {!!images.length && <Gallery images={images} handleDeletePhoto={handleDeletePhoto} />}
         <UploadButton width="140px" height="48px" $borderRadius="6px" onChange={handleImages} />
       </S.Container>
       <S.ButtonsContainer>
         <Button type="submit" width="140px" height="48px" $borderRadius="6px">
-          Create
+          Edit
         </Button>
         <Button
           type="reset"

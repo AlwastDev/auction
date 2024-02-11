@@ -27,8 +27,13 @@ export const Label = styled.label`
   color: ${colors.black};
 `;
 
-export const InputWrapper = styled.div<{ gap?: string }>`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+export const InputWrapper = styled.div<{ gap?: string; $isLabel?: boolean }>`
+  ${(props) =>
+    props.$isLabel
+      ? `
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      `
+      : ''}
   ${(props) => props.gap && `gap: ${props.gap};`}
 `;
