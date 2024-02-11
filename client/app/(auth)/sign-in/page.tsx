@@ -29,8 +29,10 @@ export default function SignInPage() {
 
     startTransition(() => {
       onLogin(email, password)
-        .then(() => {
-          router.push('/');
+        .then((response) => {
+          if (response.data) {
+            router.push('/');
+          }
         })
         .catch((error) => {
           toast.error(error);

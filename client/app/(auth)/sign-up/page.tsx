@@ -33,9 +33,15 @@ export default function SignUpPage() {
     }
 
     startTransition(() => {
-      onRegister(email, password, confirmPassword).then(() => {
-        router.push('/');
-      });
+      onRegister(email, password, confirmPassword)
+        .then((response) => {
+          if (response.data) {
+            router.push('/');
+          }
+        })
+        .catch((error) => {
+          toast.error(error);
+        });
     });
   };
 
