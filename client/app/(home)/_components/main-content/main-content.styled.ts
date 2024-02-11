@@ -56,6 +56,12 @@ export const AuctionDescription = styled.p`
   font-weight: 400;
 `;
 
+export const AuctionPrice = styled.p`
+  margin: 0;
+  font-size: 23px;
+  font-weight: 600;
+`;
+
 export const AuctionImage = styled(Image)`
   display: block;
   position: static;

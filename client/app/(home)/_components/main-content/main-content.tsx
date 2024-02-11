@@ -9,6 +9,7 @@ import { getPaginatedAuctions } from '../../../../store/getAuctionsSlice';
 import { formatDate, replaceUrl } from '@/lib/utils';
 import { Pagination } from '@/components/pagination/pagination';
 import { Loader } from '@/components/loader/loader';
+import { AuctionPrice } from './mainContent.styled';
 
 import * as S from './main-content.styled';
 
@@ -47,6 +48,7 @@ export const MainContent: FC<MainContentProps> = ({ pageNumber }) => {
     setPage(pageNumber);
   };
 
+  console.log(auctions);
   return (
     <>
       {loading && <Loader />}
@@ -61,6 +63,7 @@ export const MainContent: FC<MainContentProps> = ({ pageNumber }) => {
                     <S.AuctionContentContainer>
                       <S.AuctionDescription>{item.description}</S.AuctionDescription>
                       <S.AuctionDescription>{formatDate(item.createdAt)}</S.AuctionDescription>
+                      <S.AuctionPrice>{item.lastRate.rate} UAN</S.AuctionPrice>
                     </S.AuctionContentContainer>
                   </S.AuctionInfoContainer>
                   <S.ListItemLink href={`/${item.id}`}>

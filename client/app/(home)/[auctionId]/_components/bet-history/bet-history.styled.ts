@@ -53,6 +53,9 @@ export const BetListItem = styled.li`
 
 export const ListItemInfo = styled.p`
   display: block;
+  overflow: hidden;
   font-size: 23px;
   font-weight: 500;
+  width: 200px;
+  text-overflow: ellipsis;
 `;
