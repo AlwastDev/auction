@@ -4,25 +4,35 @@ import styled from 'styled-components';
 
 import { colors } from '@/lib/colors';
 
-export const Button = styled.button<{
-  width?: string;
+export const UploadButton = styled.input`
+  width: 110px;
+  height: 10px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+`;
+
+export const Label = styled.label<{
   height?: string;
+  width?: string;
   $borderRadius?: string;
   $backgroundColor?: string;
 }>`
   display: flex;
+  gap: 5px;
   justify-content: center;
   align-items: center;
-  gap: 5px;
   height: ${(props) => props.height ?? '60px'};
   width: ${(props) => props.width ?? '240px'};
-  border-radius: ${(props) => props.$borderRadius ?? '15px'};
-  border: 0;
   background-color: ${(props) => props.$backgroundColor ?? colors.blue};
+  border-radius: ${(props) => props.$borderRadius ?? '15px'};
+  text-align: center;
+  cursor: pointer;
   font-weight: 600;
   letter-spacing: 0.05em;
+  line-height: 120%;
   text-transform: uppercase;
-  text-align: center;
+  align-self: center;
   color: ${colors.black};
-  cursor: pointer;
 `;

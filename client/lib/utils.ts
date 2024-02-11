@@ -1,3 +1,6 @@
+import { AuctionStatus } from '@/lib/models';
+import { object } from 'prop-types';
+
 export function validateEmail(email: string) {
   return String(email)
     .toLowerCase()
@@ -14,4 +17,17 @@ export function dateToString(date: Date) {
   const year = newDate.getFullYear();
 
   return `${day}.${month}.${year}`;
+}
+
+export function toBase64(file: File) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+  });
+}
+
+export function enumToArrayValues(enumerable: object) {
+  return Object.values(enumerable).filter((key) => !isNaN(Number(AuctionStatus[key as number])));
 }

@@ -20,6 +20,7 @@ a {
 main {
   width: 100%;
   max-width: 97%;
+  height: 100vh;
   margin: 0 auto;
 }
 
