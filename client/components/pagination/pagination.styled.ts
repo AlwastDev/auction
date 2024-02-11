@@ -1,6 +1,6 @@
 import styled from 'styled-components';
+
 import { colors } from '@/lib/colors';
-import { bool } from 'prop-types';
 
 export const PaginationContainer = styled.div`
   display: flex;
@@ -9,13 +9,13 @@ export const PaginationContainer = styled.div`
   gap: 8px;
 `;
 
-export const PaginationButton = styled.button<{ active: 'active' | '' }>`
+export const PaginationButton = styled.button<{ $active: 'active' | '' }>`
   outline: none;
   border: none;
   border-radius: 4px;
   padding: 4px 10px;
-  ${({ active }) =>
-    active === 'active'
+  ${({ $active }) =>
+    $active === 'active'
       ? `
     background-color: ${colors.black};
     color: ${colors.white};

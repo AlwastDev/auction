@@ -1,5 +1,5 @@
 import { Sidebar } from './_components/sidebar/sidebar';
-import { MainContent } from './_components/mainContent/mainContent';
+import { MainContent } from '@/app/(home)/_components/main-content/main-content';
 
 import * as S from './page.styled';
 import Link from 'next/link';

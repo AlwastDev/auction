@@ -1,10 +1,7 @@
 import { asyncThunkCreator, buildCreateSlice } from '@reduxjs/toolkit';
+
 import { Auction } from '@/lib/models';
-import { number, string } from 'prop-types';
-import { api } from '@/lib/services/api';
 import { getAuctions, IGetAuctionsResponse } from '@/lib/services/auction-service';
-import { toast } from 'sonner';
-import { RootState } from '@/store';
 
 interface IAuctionsRequestProps {
   page: number;

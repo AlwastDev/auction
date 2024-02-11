@@ -1,9 +1,10 @@
 'use client';
 
 import { FC, useCallback, useEffect, useRef } from 'react';
-import { Container, RangeInput, Slider } from '@/components/range/range.styled';
 
-interface IRange {
+import { Container, RangeInput, Slider } from './range.styled';
+
+interface RangeProps {
   min: number;
   max: number;
   minValue: number;
@@ -12,7 +13,7 @@ interface IRange {
   setMaxValue: (value: number) => void;
 }
 
-export const Range: FC<IRange> = ({ min, max, maxValue, minValue, setMinValue, setMaxValue }) => {
+export const Range: FC<RangeProps> = ({ min, max, maxValue, minValue, setMinValue, setMaxValue }) => {
   const minValRef = useRef(min);
   const maxValRef = useRef(max);
   const range = useRef<HTMLDivElement>(null);
@@ -69,8 +70,6 @@ export const Range: FC<IRange> = ({ min, max, maxValue, minValue, setMinValue, s
       <Slider>
         <div className="slider__track" />
         <div ref={range} className="slider__range" />
-        {/*<div className="slider__left-value">{minValue}</div>*/}
-        {/*<div className="slider__right-value">{maxValue}</div>*/}
       </Slider>
     </Container>
   );

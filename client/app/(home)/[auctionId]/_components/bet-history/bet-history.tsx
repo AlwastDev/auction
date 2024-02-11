@@ -1,12 +1,14 @@
 'use client';
 
-import * as S from './bet-history.styled';
-import { Pagination } from '@/components/pagination/pagination';
 import { FC, useEffect, useState } from 'react';
+
+import { Pagination } from '@/components/pagination/pagination';
 import { getRates } from '@/lib/services/rate-service';
 import { Rate } from '@/lib/models';
 import { formatDate } from '@/lib/utils';
 import { Loader } from '@/components/loader/loader';
+
+import * as S from './bet-history.styled';
 
 export const BetHistory: FC<{ auctionId: string }> = ({ auctionId }) => {
   const [paginationInfo, setPaginationInfo] = useState<{
@@ -57,10 +59,10 @@ export const BetHistory: FC<{ auctionId: string }> = ({ auctionId }) => {
     });
   };
 
-  const onSetPage = (pageNuber: number) => () => {
+  const onSetPage = (pageNumber: number) => () => {
     setPaginationInfo({
       ...paginationInfo,
-      page: pageNuber,
+      page: pageNumber,
     });
   };
 

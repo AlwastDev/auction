@@ -12,6 +12,7 @@ import { colors } from '@/lib/colors';
 import * as S from './bet-container.styled';
 import { toast } from 'sonner';
 import { createRate } from '@/lib/services/rate-service';
+import { revalidate } from '@/actions/revalidate';
 
 interface BetContainerProps {
   auction: Auction;
@@ -31,6 +32,7 @@ export const BetContainer: FC<BetContainerProps> = ({ auction }) => {
 
     await createRate(auction.id, rate).then((response) => {
       if (response) {
+        revalidate(`/${auction.id}`);
         router.push(`/${auction.id}`);
       }
     });

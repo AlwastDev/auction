@@ -1,14 +1,14 @@
 'use client';
 
 import { FC, useEffect, useLayoutEffect, useState } from 'react';
-import { Range } from '@/components/range/range';
-import { useAppDispatch, useAppSelector, useDebounce } from '@/lib/hooks';
 import { useRouter } from 'next/navigation';
+import { useDebounceValue } from 'usehooks-ts';
 
-import { changeMaxRate, changeMinRate } from '@/store/GetAuctionsSlice';
+import { Range } from '@/components/range/range';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
+import { changeMaxRate, changeMinRate } from '../../../../store/getAuctionsSlice';
 import { replaceUrl } from '@/lib/utils';
-
-import { FilterInput } from '@/app/(home)/_components/sidebar/_components/filterInput';
+import { FilterInput } from './_components/filter-input';
 
 import * as S from './sidebar.styled';
 
@@ -27,8 +27,8 @@ export const Sidebar: FC<{ minRateValue: number; maxRateValue: number; pageNumbe
     minRate,
     maxRate,
   });
-  const [debouncedMinRate] = useDebounce(rate.minRate, 500);
-  const [debouncedMaxRate] = useDebounce(rate.maxRate, 500);
+  const [debouncedMinRate] = useDebounceValue(rate.minRate, 500);
+  const [debouncedMaxRate] = useDebounceValue(rate.maxRate, 500);
 
   const onChangeMinRate = (value: number) => {
     setRate({ minRate: value, maxRate: rate.maxRate });

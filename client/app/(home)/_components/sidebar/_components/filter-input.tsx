@@ -1,17 +1,24 @@
+'use client';
+
 import { ChangeEvent, FC, useLayoutEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
-import { changeMaxRate, changeMinRate } from '@/store/GetAuctionsSlice';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
+import { changeMaxRate, changeMinRate } from '../../../../../store/getAuctionsSlice';
 import { replaceUrl } from '@/lib/utils';
 
-import * as S from '@/app/(home)/_components/sidebar/sidebar.styled';
+import * as S from '../sidebar.styled';
 
-export const FilterInput: FC<{ pageNumber: number }> = ({ pageNumber }) => {
+interface FilterInputProps {
+  pageNumber: number;
+}
+
+export const FilterInput: FC<FilterInputProps> = ({ pageNumber }) => {
   const { replace } = useRouter();
   const dispatch = useAppDispatch();
   const { minRate, maxRate } = useAppSelector((state) => state.auctions);
+
   const [rate, setRate] = useState<{
     minRate: number;
     maxRate: number;

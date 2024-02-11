@@ -1,13 +1,14 @@
 import styled, { keyframes } from 'styled-components';
+
 import { colors } from '@/lib/colors';
 
 const rotateLoader = keyframes`
-  from {
-    transform: rotate(1deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+    from {
+        transform: rotate(1deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 `;
 
 export const LoaderContainer = styled.div`

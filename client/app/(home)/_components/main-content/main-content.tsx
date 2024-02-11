@@ -1,19 +1,22 @@
 'use client';
+
 import { FC, useEffect, useState } from 'react';
-
 import { useRouter } from 'next/navigation';
-import { useAppDispatch, useAppSelector } from '@/lib/hooks';
-import { getPaginatedAuctions } from '@/store/GetAuctionsSlice';
-
-import { formatDate, replaceUrl } from '@/lib/utils';
-
-import { Pagination } from '@/components/pagination/pagination';
-
-import * as S from './mainContent.styled';
 import { ArrowRight } from 'lucide-react';
+
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
+import { getPaginatedAuctions } from '../../../../store/getAuctionsSlice';
+import { formatDate, replaceUrl } from '@/lib/utils';
+import { Pagination } from '@/components/pagination/pagination';
 import { Loader } from '@/components/loader/loader';
 
-export const MainContent: FC<{ pageNumber: number }> = ({ pageNumber }) => {
+import * as S from './main-content.styled';
+
+interface MainContentProps {
+  pageNumber: number;
+}
+
+export const MainContent: FC<MainContentProps> = ({ pageNumber }) => {
   const { replace } = useRouter();
   const dispatch = useAppDispatch();
   const [page, setPage] = useState<number>(pageNumber);

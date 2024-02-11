@@ -1,16 +1,24 @@
-import * as S from './pagination.styled';
-import { PaginationSwitchButton } from './pagination.styled';
 import { FC, useLayoutEffect, useState } from 'react';
+
 import { getPagesArray } from '@/components/pagination/helpers';
 
-export interface IPagination {
+import * as S from './pagination.styled';
+
+export interface PaginationProps {
   currentPage: number;
   lasPage: number;
   onNextPage: () => void;
   onPreviousPage: () => void;
   setPageNumber: (newPage: number) => () => void;
 }
-export const Pagination: FC<IPagination> = ({ currentPage, lasPage, onPreviousPage, onNextPage, setPageNumber }) => {
+
+export const Pagination: FC<PaginationProps> = ({
+  currentPage,
+  lasPage,
+  onPreviousPage,
+  onNextPage,
+  setPageNumber,
+}) => {
   const [pages, setPages] = useState<number[]>([]);
 
   useLayoutEffect(() => {
@@ -27,7 +35,7 @@ export const Pagination: FC<IPagination> = ({ currentPage, lasPage, onPreviousPa
           <S.PaginationButton
             disabled={currentPage === page}
             onClick={setPageNumber(page)}
-            active={currentPage === page ? 'active' : ''}
+            $active={currentPage === page ? 'active' : ''}
             key={`page-${page}`}
           >
             {page}
