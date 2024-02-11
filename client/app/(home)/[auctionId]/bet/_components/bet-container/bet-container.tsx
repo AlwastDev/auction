@@ -11,6 +11,7 @@ import { colors } from '@/lib/colors';
 
 import * as S from './bet-container.styled';
 import { toast } from 'sonner';
+import { createRate } from '@/lib/services/rate-service';
 
 interface BetContainerProps {
   auction: Auction;
@@ -21,16 +22,22 @@ export const BetContainer: FC<BetContainerProps> = ({ auction }) => {
 
   const [rate, setRate] = useState<number>(1);
 
-  const handleSubmit = async () => {
-    if (auction.lastRate.rate <= rate) {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (auction.lastRate.rate >= rate) {
       return toast.error('The rate is lower than the last rate');
     }
 
-    router.push(`/${auction.id}`);
+    await createRate(auction.id, rate).then((response) => {
+      if (response) {
+        router.push(`/${auction.id}`);
+      }
+    });
   };
 
   return (
-    <S.Container>
+    <S.Container onSubmit={handleSubmit}>
       <h1>Your bet</h1>
       <Input
         type="number"

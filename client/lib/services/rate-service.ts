@@ -28,3 +28,13 @@ export const getRates = async (auctionId: string, page: number): Promise<IGetRat
 
   return response.data as IGetRatesResponse;
 };
+
+export const createRate = async (auctionId: string, rate: number) => {
+  const response = await api.post<Rate>(`${route}/${auctionId}`, { rate });
+
+  if (!response || !response.data) {
+    toast.error(response.message);
+  }
+
+  return response.data;
+};
