@@ -11,10 +11,11 @@ interface IGetRatesResponse {
   totalPage: number;
 }
 
-export const getRates = async (auctionId: string): Promise<IGetRatesResponse> => {
+export const getRates = async (auctionId: string, page: number): Promise<IGetRatesResponse> => {
   const url = qs.stringifyUrl(
     {
       url: `/${route}/${auctionId}`,
+      query: { page, limit: 10 },
     },
     { skipEmptyString: true },
   );

@@ -31,3 +31,28 @@ export const PaginationContainer = styled.div`
   bottom: 44px;
   right: 61px;
 `;
+
+export const BetList = styled.ul`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 1024px;
+  width: 96%;
+  padding: 0;
+  margin: 0 auto;
+`;
+
+export const BetListItem = styled.li`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0;
+  width: 100%;
+`;
+
+export const ListItemInfo = styled.p`
+  display: block;
+  font-size: 23px;
+  font-weight: 500;
+`;

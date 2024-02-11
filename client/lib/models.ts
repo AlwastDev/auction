@@ -32,6 +32,8 @@ export interface Rate {
   userId: string;
   rate: number;
   createdAt: Date;
+  updatedAt: Date;
+  userName?: string;
 }
 
 export interface Image {

@@ -26,7 +26,7 @@ export default async function AuctionPage({ params }: PageProps) {
       <Actions auctionId={auction.id} userIsOwner={auction.userIsOwner} />
       <Gallery images={auction.images} />
       <InfoCard description={auction.description} rate={auction.lastRate.rate} createdAt={auction.createdAt} />
-      <BetHistory />
+      <BetHistory auctionId={params.auctionId} />
     </S.Container>
   );
 }
