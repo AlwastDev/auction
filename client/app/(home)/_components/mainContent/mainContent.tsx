@@ -3,7 +3,6 @@ import { FC, useEffect, useState } from 'react';
 
 import { useRouter } from 'next/navigation';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
-import Link from 'next/link';
 import { getPaginatedAuctions } from '@/store/GetAuctionsSlice';
 
 import { formatDate, replaceUrl } from '@/lib/utils';
@@ -12,7 +11,6 @@ import { Pagination } from '@/components/pagination/pagination';
 
 import * as S from './mainContent.styled';
 import { ArrowRight } from 'lucide-react';
-import { AuctionInfoContainer } from './mainContent.styled';
 import { Loader } from '@/components/loader/loader';
 
 export const MainContent: FC<{ pageNumber: number }> = ({ pageNumber }) => {
