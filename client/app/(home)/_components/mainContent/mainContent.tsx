@@ -32,14 +32,14 @@ export const MainContent: FC<{ pageNumber: number }> = ({ pageNumber }) => {
   };
 
   const onPreviousPage = () => {
-    replace(replaceUrl({ page: page + 1, minRate, maxRate }), {
+    replace(replaceUrl({ page: page - 1, minRate, maxRate }), {
       scroll: false,
     });
     setPage(page - 1);
   };
 
   const setPageNumber = (pageNumber: number) => () => {
-    replace(replaceUrl({ page: page + 1, minRate, maxRate }), {
+    replace(replaceUrl({ page: pageNumber, minRate, maxRate }), {
       scroll: false,
     });
     setPage(pageNumber);
