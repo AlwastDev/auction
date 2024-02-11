@@ -36,7 +36,7 @@ const handleError = async <T>(error: AxiosError): Promise<ResponseData<T>> => {
     redirect('/sign-in');
   }
 
-  if (error.response?.status === 400) {
+  if (error.response?.status === 400 || error.response?.status === 404) {
     return { message: (error.response.data as ResponseData<T>)?.message };
   }
 

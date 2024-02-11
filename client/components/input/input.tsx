@@ -13,7 +13,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 export const Input: FC<InputProps> = ({ label, gap, ...rest }) => {
   return (
-    <S.InputWrapper gap={gap}>
+    <S.InputWrapper gap={gap} $isLabel={!!label}>
       {label && <S.Label htmlFor={label}>{label}</S.Label>}
       <S.Input id={label} {...rest} />
     </S.InputWrapper>
