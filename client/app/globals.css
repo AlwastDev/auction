@@ -21,7 +21,7 @@ a {
 main {
   width: 100%;
   max-width: 97%;
-  margin: 80px auto 0;
+  margin: 120px auto 0;
 }
 
 @media screen and (min-width: 1580px) {

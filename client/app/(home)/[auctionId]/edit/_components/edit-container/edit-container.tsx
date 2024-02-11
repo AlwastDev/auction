@@ -1,27 +1,32 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { FC, useState } from 'react';
 import { useDebounceValue } from 'usehooks-ts';
+import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
+import { Auction, AuctionStatus, Image as IImage } from '@/lib/models';
+import { enumToArrayValues, toBase64 } from '@/lib/utils';
 import { Input } from '@/components/input/input';
-import { Button } from '@/components/button/button';
-import { Gallery } from '../_components/gallery/gallery';
 import { UploadButton } from '@/components/upload-button/upload-button';
+import { Button } from '@/components/button/button';
+import { Gallery } from '@/app/(home)/_components/gallery/gallery';
+import { Select } from '@/components/select/select';
 import { colors } from '@/lib/colors';
-import { toBase64 } from '@/lib/utils';
-import { Image as IImage } from '@/lib/models';
-import { createAuction } from '@/lib/services/auction-service';
 
-import * as S from './create.styled';
+import * as S from './edit-container.styled';
 
-export default function CreateAuctionPage() {
+interface EditContainerProps {
+  auction: Auction;
+}
+
+export const EditContainer: FC<EditContainerProps> = ({ auction }) => {
   const router = useRouter();
 
-  const [description, setDescription] = useDebounceValue('', 50);
-  const [rate, setRate] = useDebounceValue(1, 50);
-  const [images, setImages] = useState<IImage[]>([]);
+  const [description, setDescription] = useDebounceValue(auction.description, 50);
+  const [rate, setRate] = useDebounceValue(auction.lastRate.rate, 50);
+  const [status, setStatus] = useState<AuctionStatus>(auction.status);
+  const [images, setImages] = useState<IImage[]>([...auction.images]);
 
   const handleImages = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const maxSizeInBytes = 5 * 1024 * 1024; //5 MB;
@@ -61,22 +66,30 @@ export default function CreateAuctionPage() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    await createAuction(description, images, rate).then((auction) => {
-      if (auction.data) {
-        router.push('/');
-      }
-    });
+    // await editAuction(description, images).then((auction) => {
+    //   if (auction.data) {
+    //     router.push(`/${auction.id}`);
+    //   }
+    // });
   };
 
   const handleClear = () => {
-    router.push('/');
+    setDescription(auction.description);
+    setImages(auction.images);
+    setStatus(auction.status);
+    setRate(auction.lastRate.rate);
   };
 
   return (
     <S.FormContainer onSubmit={handleSubmit}>
       <S.Container>
         <S.InputsContainer>
-          <Input type="text" label="Description" onChange={(event) => setDescription(event.target.value)} />
+          <Input
+            type="text"
+            label="Description"
+            defaultValue={description}
+            onChange={(event) => setDescription(event.target.value)}
+          />
           <Input
             type="number"
             min={1}
@@ -85,6 +98,7 @@ export default function CreateAuctionPage() {
             defaultValue={rate}
             onChange={(event) => setRate(Number(event.target.value))}
           />
+          <Select name="Status" defaultValue={status} values={enumToArrayValues(AuctionStatus)} />
         </S.InputsContainer>
         {!!images.length && <Gallery images={images} handleDeletePhoto={handleDeletePhoto} />}
         <UploadButton width="140px" height="48px" $borderRadius="6px" onChange={handleImages} />
@@ -106,4 +120,4 @@ export default function CreateAuctionPage() {
       </S.ButtonsContainer>
     </S.FormContainer>
   );
-}
+};

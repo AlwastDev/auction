@@ -4,13 +4,12 @@ import { cookies } from 'next/headers';
 
 export async function setCookie(name: string, value: string, options: { expires: number }) {
   const expires = new Date();
-  expires.setTime(expires.getTime() + options.expires * 24 * 60 * 60 * 1000);
+  expires.setTime(expires.getTime() + options.expires * 60 * 60 * 1000);
   cookies().set({
     name: name,
     value: value,
     expires: expires,
     httpOnly: true,
-    path: '/',
   });
 }
 

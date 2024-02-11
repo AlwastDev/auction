@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 
 import { getAuction } from '@/lib/services/auction-service';
+import { EditContainer } from './_components/edit-container/edit-container';
 
 interface PageProps {
   params: {
@@ -15,5 +16,5 @@ export default async function EditAuctionPage({ params }: PageProps) {
     notFound();
   }
 
-  return <div>Edit page {auction.id}</div>;
+  return <EditContainer auction={auction} />;
 }
