@@ -33,8 +33,7 @@ axiosInstance.interceptors.request.use(
 
 const handleError = async <T>(error: AxiosError): Promise<ResponseData<T>> => {
   if (error.response?.status === 401) {
-    await api.removeAccessTokenFromHeader();
-    return redirect('/sign-in');
+    redirect('/sign-in');
   }
 
   if (error.response?.status === 400) {
