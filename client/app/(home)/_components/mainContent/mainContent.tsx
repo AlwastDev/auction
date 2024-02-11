@@ -12,6 +12,7 @@ import { Pagination } from '@/components/pagination/pagination';
 import * as S from './mainContent.styled';
 import { ArrowRight } from 'lucide-react';
 import { Loader } from '@/components/loader/loader';
+import { AuctionPrice } from './mainContent.styled';
 
 export const MainContent: FC<{ pageNumber: number }> = ({ pageNumber }) => {
   const { replace } = useRouter();
@@ -44,6 +45,7 @@ export const MainContent: FC<{ pageNumber: number }> = ({ pageNumber }) => {
     setPage(pageNumber);
   };
 
+  console.log(auctions);
   return (
     <>
       {loading && <Loader />}
@@ -58,6 +60,7 @@ export const MainContent: FC<{ pageNumber: number }> = ({ pageNumber }) => {
                     <S.AuctionContentContainer>
                       <S.AuctionDescription>{item.description}</S.AuctionDescription>
                       <S.AuctionDescription>{formatDate(item.createdAt)}</S.AuctionDescription>
+                      <S.AuctionPrice>{item.lastRate.rate} UAN</S.AuctionPrice>
                     </S.AuctionContentContainer>
                   </S.AuctionInfoContainer>
                   <S.ListItemLink href={`/${item.id}`}>
