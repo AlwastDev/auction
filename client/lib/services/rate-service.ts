@@ -15,7 +15,7 @@ export const getRates = async (auctionId: string, page: number): Promise<IGetRat
   const url = qs.stringifyUrl(
     {
       url: `/${route}/${auctionId}`,
-      query: { page, limit: 10 },
+      query: { page, limit: 10, getUserName: true },
     },
     { skipEmptyString: true },
   );
