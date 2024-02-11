@@ -14,6 +14,7 @@ export const Header = styled.header`
   width: 100%;
   border-bottom: 1px solid ${colors.gray};
   margin-bottom: 30px;
+  z-index: 2;
 `;
 
 export const ButtonContainer = styled.div`
