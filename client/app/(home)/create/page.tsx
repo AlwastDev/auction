@@ -7,50 +7,65 @@ import { useDebounceValue } from 'usehooks-ts';
 import { toast } from 'sonner';
 
 import { Input } from '@/components/input/input';
-import { Select } from '@/components/select/select';
 import { Button } from '@/components/button/button';
 import { UploadButton } from '@/components/upload-button/upload-button';
 import { colors } from '@/lib/colors';
-import { enumToArrayValues, toBase64 } from '@/lib/utils';
-import { AuctionStatus } from '@/lib/models';
+import { toBase64 } from '@/lib/utils';
+import { Image as IImage } from '@/lib/models';
+import { createAuction } from '@/lib/services/auction-service';
 
 import * as S from './create.styled';
-import { Trash } from 'lucide-react';
 
 export default function CreateAuctionPage() {
   const router = useRouter();
 
-  const [description, setDescription] = useDebounceValue('', 100);
-  const [rate, setRate] = useDebounceValue('', 100);
-  const [images, setImages] = useState<string[]>([]);
+  const [description, setDescription] = useDebounceValue('', 50);
+  const [rate, setRate] = useDebounceValue(1, 50);
+  const [images, setImages] = useState<IImage[]>([]);
 
   const handleImages = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const images = e.target.files;
+    const maxSizeInBytes = 5 * 1024 * 1024; //5 MB;
+    const newImages = e.target.files;
 
-    if (!images) {
+    if (!newImages) {
       return null;
     }
 
-    if (images.length > 5) {
+    if (newImages.length + images.length > 5) {
       toast.error('Photos must be no more than 5');
       return null;
     }
 
-    const base64Images: string[] = [];
-
-    for (let i = 0; i < images.length; i++) {
-      base64Images.push((await toBase64(images[i])) as string);
+    for (let i = 0; i < newImages.length; i++) {
+      if (newImages[i].size > maxSizeInBytes) {
+        toast.error('The file size must be less than 5 MB');
+        return null;
+      }
     }
 
-    setImages(base64Images);
+    const base64Images: IImage[] = [];
+
+    for (let i = 0; i < newImages.length; i++) {
+      base64Images.push({ source: (await toBase64(newImages[i])) as string });
+    }
+
+    setImages((prevState) => [...prevState, ...base64Images]);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
+  const handleDeletePhoto = (index: number) => {
+    const newImages = [...images];
+    newImages.splice(index, 1);
+    setImages(newImages);
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    console.log(description);
-    console.log(rate);
-    console.log(images);
+    await createAuction(description, images, rate).then((auction) => {
+      if (auction.data) {
+        router.push('/');
+      }
+    });
   };
 
   const handleClear = () => {
@@ -58,18 +73,27 @@ export default function CreateAuctionPage() {
   };
 
   return (
-    <S.FormContainer>
+    <S.FormContainer onSubmit={handleSubmit}>
       <S.Container>
         <S.InputsContainer>
           <Input type="text" label="Description" onChange={(event) => setDescription(event.target.value)} />
-          <Input type="text" label="Starting rate" onChange={(event) => setRate(event.target.value)} />
-          <Select name="Status" values={enumToArrayValues(AuctionStatus)} />
+          <Input
+            type="number"
+            min={1}
+            max={99999}
+            label="Starting rate (UAH)"
+            defaultValue={rate}
+            onChange={(event) => setRate(Number(event.target.value))}
+          />
         </S.InputsContainer>
         {!!images.length && (
           <S.Gallery>
             {images.map((image, i) => (
               <S.ImageCard key={`${i}_image`}>
-                <Image width={200} height={200} src={image} alt={`${i}_image`} />
+                <S.Image>
+                  <Image width={200} height={200} src={image.source} alt={`${i}_image`} />
+                </S.Image>
+                <S.DeleteImageBtn style={{ cursor: 'pointer' }} src="/trash.svg" onClick={() => handleDeletePhoto(i)} />
               </S.ImageCard>
             ))}
           </S.Gallery>
@@ -77,7 +101,7 @@ export default function CreateAuctionPage() {
         <UploadButton width="140px" height="48px" $borderRadius="6px" onChange={handleImages} />
       </S.Container>
       <S.ButtonsContainer>
-        <Button type="submit" width="140px" height="48px" $borderRadius="6px" onSubmit={handleSubmit}>
+        <Button type="submit" width="140px" height="48px" $borderRadius="6px">
           Create
         </Button>
         <Button

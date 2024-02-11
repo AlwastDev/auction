@@ -2,7 +2,7 @@ import qs from 'query-string';
 import { toast } from 'sonner';
 
 import { api } from '@/lib/services/api';
-import { Auction, AuctionStatus } from '@/lib/models';
+import { Auction, Image } from '@/lib/models';
 
 const route = 'auctions';
 
@@ -42,12 +42,15 @@ export const getAuction = async (id: string) => {
   return response.data;
 };
 
-export const createAuction = async (description: string, initialRate: number) => {
-  const response = await api.post(`${route}`, { description, initialRate, status: AuctionStatus.CREATED });
+export const createAuction = async (description: string, images: Image[], initialRate: number) => {
+  const response = await api.post(`${route}`, { description, initialRate, images });
 
   if (!response || !response.data) {
-    return toast.error(response.message);
+    toast.error(response.message);
+    return response;
   }
+
+  toast.success('The auction was created successfully');
 
   return response;
 };
@@ -58,6 +61,8 @@ export const editAuction = async (id: string, description: string) => {
   if (!response || !response.data) {
     return toast.error(response.message);
   }
+
+  toast.success('The auction was changed successfully');
 
   return response;
 };
