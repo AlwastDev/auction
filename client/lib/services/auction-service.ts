@@ -6,7 +6,6 @@ import { Auction, Image } from '@/lib/models';
 
 const route = 'auctions';
 
-<<<<<<< HEAD
 export interface IGetAuctionsResponse {
   rows: Auction[];
   totalPage: number;
@@ -18,9 +17,6 @@ export const getAuctions = async (
   minRate?: number,
   maxRate?: number,
 ): Promise<IGetAuctionsResponse> => {
-=======
-export const getAuctions = async (page: number, limit: number, minRate?: number, maxRate?: number) => {
->>>>>>> 4d05a1c061f9245c6507cafc87b3b50f53594ce3
   const url = qs.stringifyUrl(
     {
       url: `/${route}`,
@@ -29,23 +25,13 @@ export const getAuctions = async (page: number, limit: number, minRate?: number,
     { skipEmptyString: true },
   );
 
-<<<<<<< HEAD
   const response = await api.get<IGetAuctionsResponse>(url);
-
-  if (!response.data.data) {
-    throw new Error('Auth error');
-  }
-
-  return response.data.data;
-=======
-  const response = await api.get<Auction[]>(url);
 
   if (!response || !response.data) {
     toast.error(response.message);
   }
 
-  return response.data;
->>>>>>> 4d05a1c061f9245c6507cafc87b3b50f53594ce3
+  return response.data as IGetAuctionsResponse;
 };
 
 export const getAuction = async (id: string) => {

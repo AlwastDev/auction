@@ -11,7 +11,7 @@ import { formatDate, replaceUrl } from '@/lib/utils';
 import { Pagination } from '@/components/pagination/pagination';
 
 import * as S from './mainContent.styled';
-import { PaginationContainer } from './mainContent.styled';
+import { ArrowRight } from 'lucide-react';
 
 export const MainContent: FC<{ pageNumber: number }> = ({ pageNumber }) => {
   const { replace } = useRouter();
@@ -22,10 +22,6 @@ export const MainContent: FC<{ pageNumber: number }> = ({ pageNumber }) => {
   useEffect(() => {
     dispatch(getPaginatedAuctions({ page, limit: 3, minRate, maxRate }));
   }, [page, minRate, maxRate]);
-
-  useEffect(() => {
-    error.length && toast.error(error);
-  }, [error]);
 
   const onNextPage = () => {
     replace(replaceUrl({ page: page + 1, minRate, maxRate }), {
@@ -50,7 +46,7 @@ export const MainContent: FC<{ pageNumber: number }> = ({ pageNumber }) => {
 
   return (
     <S.ContentSection>
-      {!!auctions.length && (
+      {!!auctions && !error.length && (
         <>
           <S.AuctionsList>
             {auctions.map((item, index) => (
@@ -60,6 +56,7 @@ export const MainContent: FC<{ pageNumber: number }> = ({ pageNumber }) => {
                   <S.AuctionDescription>{item.description}</S.AuctionDescription>
                   <S.AuctionDescription>{formatDate(item.createdAt)}</S.AuctionDescription>
                 </S.AuctionContentContainer>
+                <ArrowRight fontSize={40} />
               </S.AuctionListElement>
             ))}
           </S.AuctionsList>
