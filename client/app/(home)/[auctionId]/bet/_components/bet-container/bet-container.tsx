@@ -33,7 +33,7 @@ export const BetContainer: FC<BetContainerProps> = ({ auction }) => {
     await createRate(auction.id, rate).then((response) => {
       if (response) {
         revalidate(`/${auction.id}`);
-        router.push(`/${auction.id}`);
+        setTimeout(() => router.push(`/${auction.id}`), 500);
       }
     });
   };

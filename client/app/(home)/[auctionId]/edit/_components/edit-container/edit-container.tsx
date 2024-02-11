@@ -14,9 +14,9 @@ import { Button } from '@/components/button/button';
 import { Gallery } from '@/app/(home)/_components/gallery/gallery';
 import { Select } from '@/components/select/select';
 import { colors } from '@/lib/colors';
+import { revalidate } from '@/actions/revalidate';
 
 import * as S from './edit-container.styled';
-import { revalidatePath } from 'next/cache';
 
 interface EditContainerProps {
   auction: Auction;
@@ -78,8 +78,8 @@ export const EditContainer: FC<EditContainerProps> = ({ auction }) => {
 
     await editAuction(auction.id, description, status, images, rate).then((response) => {
       if (response.data) {
-        revalidatePath(`/${auction.id}`);
-        router.push(`/${auction.id}`);
+        revalidate(`/${auction.id}`);
+        setTimeout(() => router.push(`/${auction.id}`), 500);
       }
     });
   };
