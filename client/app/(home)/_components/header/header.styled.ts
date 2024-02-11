@@ -6,8 +6,10 @@ import { colors } from '@/lib/colors';
 
 export const Header = styled.header`
   display: flex;
+  position: fixed;
   align-items: center;
   justify-content: space-between;
+  background-color: ${colors.white};
   padding: 10px;
   width: 100%;
   border-bottom: 1px solid ${colors.gray};
