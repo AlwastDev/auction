@@ -13,7 +13,7 @@ export const Header = styled.header`
   padding: 10px;
   width: 100%;
   border-bottom: 1px solid ${colors.gray};
-  z-index: 2;
+  z-index: 6;
 `;
 
 export const ButtonContainer = styled.div`
