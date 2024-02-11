@@ -1,5 +1,6 @@
 import { api } from '@/lib/services/api';
 import { User } from '@/lib/models';
+import { toast } from 'sonner';
 
 const route = 'auth';
 
@@ -9,31 +10,27 @@ type Response = {
 };
 
 export const onLogin = async (login: string, password: string) => {
-  const {
-    data: { data: response },
-  } = await api.post<Response>(`${route}/login`, { login, password });
+  const response = await api.post<Response>(`${route}/login`, { login, password });
 
-  if (!response) {
-    throw new Error('Auth error');
+  if (!response || !response.data) {
+    return toast.error(response.message);
   }
 
-  await api.addAccessTokenToHeader(response.token);
+  await api.addAccessTokenToHeader(response.data.token);
 
-  return response.user;
+  return response.data.user;
 };
 
 export const onRegister = async (login: string, password: string, confirmPassword: string) => {
-  const {
-    data: { data: response },
-  } = await api.post<Response>(`${route}/registration`, { login, password, confirmPassword });
+  const response = await api.post<Response>(`${route}/registration`, { login, password, confirmPassword });
 
-  if (!response) {
-    throw new Error('Auth error');
+  if (!response || !response.data) {
+    return toast.error(response.message);
   }
 
-  await api.addAccessTokenToHeader(response.token);
+  await api.addAccessTokenToHeader(response.data.token);
 
-  return response.user;
+  return response.data.user;
 };
 
 export const onLogout = async () => {

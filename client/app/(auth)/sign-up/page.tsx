@@ -9,7 +9,7 @@ import { onRegister } from '@/lib/services/auth-service';
 import { Wrapper } from '../_components/wrapper/wrapper';
 import { validateEmail } from '@/lib/utils';
 
-export default function Page() {
+export default function SignUpPage() {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 

@@ -19,6 +19,7 @@ export interface Auction extends Entity {
   status: AuctionStatus;
   userId: string;
   description: string;
+  userIsOwner: boolean;
 
   lastRate: Rate;
   rates: Rate[];

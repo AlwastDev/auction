@@ -1,10 +1,10 @@
-import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { redirect } from 'next/navigation';
+import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 
 import { deleteCookie, getCookie, setCookie } from '@/actions/cookies';
-import { redirect } from 'next/navigation';
 
 type ResponseData<T> = {
-  message: string;
+  message?: string;
   data?: T;
 };
 
@@ -31,10 +31,14 @@ axiosInstance.interceptors.request.use(
   },
 );
 
-const handleError = async (error: AxiosError) => {
+const handleError = async <T>(error: AxiosError): Promise<ResponseData<T>> => {
   if (error.response?.status === 401) {
     await api.removeAccessTokenFromHeader();
-    redirect('/sign-in');
+    return redirect('/sign-in');
+  }
+
+  if (error.response?.status === 400) {
+    return { message: (error.response.data as ResponseData<T>)?.message };
   }
 
   return Promise.reject({
@@ -42,7 +46,7 @@ const handleError = async (error: AxiosError) => {
     message: error.message,
     headers: error.config?.headers,
     data: error.config?.data,
-    url: error.request.res.responseUrl,
+    url: error.request?.res?.responseUrl,
   });
 };
 
@@ -58,57 +62,61 @@ const api = {
     await deleteCookie('accessToken');
     delete axiosInstance.defaults.headers.common['Authorization'];
   },
-  get: async <T = null>(
-    url: string,
-    config: AxiosRequestConfig<unknown> = {},
-  ): Promise<AxiosResponse<ResponseData<T>>> => {
+  get: async <T = null>(url: string, config: AxiosRequestConfig<unknown> = {}): Promise<ResponseData<T>> => {
     try {
-      return await axiosInstance.get<ResponseData<T>>(url, config);
+      return await axiosInstance.get<ResponseData<T>>(url, config).then((data) => {
+        return { message: data.data.message, data: data.data.data };
+      });
     } catch (error) {
-      return await handleError(error as AxiosError);
+      return await handleError<T>(error as AxiosError);
     }
   },
   post: async <T = null>(
     url: string,
     data?: object,
     config: AxiosRequestConfig<unknown> = {},
-  ): Promise<AxiosResponse<ResponseData<T>>> => {
+  ): Promise<ResponseData<T>> => {
     try {
-      return await axiosInstance.post<ResponseData<T>>(url, data, config);
+      return await axiosInstance.post<ResponseData<T>>(url, data, config).then((data) => {
+        return { message: data.data.message, data: data.data.data };
+      });
     } catch (error) {
-      return await handleError(error as AxiosError);
+      return await handleError<T>(error as AxiosError);
     }
   },
   put: async <T = null>(
     url: string,
     data: object,
     config: AxiosRequestConfig<unknown> = {},
-  ): Promise<AxiosResponse<ResponseData<T>>> => {
+  ): Promise<ResponseData<T>> => {
     try {
-      return await axiosInstance.put<ResponseData<T>>(url, data, config);
+      return await axiosInstance.put<ResponseData<T>>(url, data, config).then((data) => {
+        return { message: data.data.message, data: data.data.data };
+      });
     } catch (error) {
-      return await handleError(error as AxiosError);
+      return await handleError<T>(error as AxiosError);
     }
   },
   patch: async <T = null>(
     url: string,
     data: object,
     config: AxiosRequestConfig<unknown> = {},
-  ): Promise<AxiosResponse<ResponseData<T>>> => {
+  ): Promise<ResponseData<T>> => {
     try {
-      return await axiosInstance.patch<ResponseData<T>>(url, data, config);
+      return await axiosInstance.patch<ResponseData<T>>(url, data, config).then((data) => {
+        return { message: data.data.message, data: data.data.data };
+      });
     } catch (error) {
-      return await handleError(error as AxiosError);
+      return await handleError<T>(error as AxiosError);
     }
   },
-  delete: async <T = null>(
-    url: string,
-    config: AxiosRequestConfig<unknown> = {},
-  ): Promise<AxiosResponse<ResponseData<T>>> => {
+  delete: async <T = null>(url: string, config: AxiosRequestConfig<unknown> = {}): Promise<ResponseData<T>> => {
     try {
-      return await axiosInstance.delete<ResponseData<T>>(url, config);
+      return await axiosInstance.delete<ResponseData<T>>(url, config).then((data) => {
+        return { message: data.data.message, data: data.data.data };
+      });
     } catch (error) {
-      return await handleError(error as AxiosError);
+      return await handleError<T>(error as AxiosError);
     }
   },
 };

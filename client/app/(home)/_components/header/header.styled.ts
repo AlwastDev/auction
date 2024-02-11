@@ -13,3 +13,8 @@ export const Header = styled.header`
   border-bottom: 1px solid ${colors.gray};
   margin-bottom: 30px;
 `;
+
+export const ButtonContainer = styled.div`
+  display: flex;
+  gap: 20px;
+`;
