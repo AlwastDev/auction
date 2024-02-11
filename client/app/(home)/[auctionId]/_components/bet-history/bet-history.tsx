@@ -74,7 +74,7 @@ export const BetHistory: FC<{ auctionId: string }> = ({ auctionId }) => {
             <S.BetList>
               {paginationInfo.items.map((item) => {
                 return (
-                  <S.BetListItem>
+                  <S.BetListItem key={item.id}>
                     <S.ListItemInfo>{item?.userName}</S.ListItemInfo>
                     <S.ListItemInfo>{formatDate(item.updatedAt)}</S.ListItemInfo>
                     <S.ListItemInfo>{item.rate} UAN</S.ListItemInfo>
