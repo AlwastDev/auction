@@ -1,19 +1,25 @@
 import { Sidebar } from './_components/sidebar/sidebar';
+import { MainContent } from './_components/mainContent/mainContent';
 
 import * as S from './page.styled';
-import { getAuction } from '@/lib/services/auction-service';
 
-export default async function Page() {
-  const auctions = await getAuction('11341351-fa9e-48fd-a86e-c7d99b7cb580');
+interface PageProps {
+  searchParams: {
+    page?: number;
+    minRate?: number;
+    maxRate?: number;
+  };
+}
 
-  // await createAuction('sadsadsad', 1000);
-
-  console.log(auctions);
-
+export default async function Page({ searchParams }: PageProps) {
   return (
     <S.SearchSection>
-      <Sidebar />
-      <S.ContentSection></S.ContentSection>
+      <Sidebar
+        minRateValue={Number(searchParams.minRate) || 1}
+        maxRateValue={Number(searchParams.maxRate) || 99998}
+        pageNumber={Number(searchParams.page) || 1}
+      />
+      <MainContent pageNumber={Number(searchParams.page) || 1} />
     </S.SearchSection>
   );
 }

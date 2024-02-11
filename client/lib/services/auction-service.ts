@@ -5,12 +5,17 @@ import { Auction, AuctionStatus } from '@/lib/models';
 
 const route = 'auctions';
 
+export interface IGetAuctionsResponse {
+  rows: Auction[];
+  totalPage: number;
+}
+
 export const getAuctions = async (
   page: number,
   limit: number,
   minRate?: number,
   maxRate?: number,
-): Promise<Auction[]> => {
+): Promise<IGetAuctionsResponse> => {
   const url = qs.stringifyUrl(
     {
       url: `/${route}`,
@@ -19,15 +24,13 @@ export const getAuctions = async (
     { skipEmptyString: true },
   );
 
-  const {
-    data: { data: auctions },
-  } = await api.get<Auction[]>(url);
+  const response = await api.get<IGetAuctionsResponse>(url);
 
-  if (!auctions) {
+  if (!response.data.data) {
     throw new Error('Auth error');
   }
 
-  return auctions;
+  return response.data.data;
 };
 
 export const getAuction = async (id: string): Promise<Auction> => {
