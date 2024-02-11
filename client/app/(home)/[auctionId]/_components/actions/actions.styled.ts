@@ -2,7 +2,8 @@
 
 import styled from 'styled-components';
 
-export const ButtonContainer = styled.div`
+export const Actions = styled.div`
   display: flex;
-  gap: 20px;
+  gap: 40px;
+  justify-content: end;
 `;

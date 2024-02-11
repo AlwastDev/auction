@@ -9,7 +9,7 @@ import { onLogin } from '@/lib/services/auth-service';
 import { Wrapper } from '../_components/wrapper/wrapper';
 import { validateEmail } from '@/lib/utils';
 
-export default function Page() {
+export default function SignInPage() {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
@@ -28,9 +28,13 @@ export default function Page() {
     }
 
     startTransition(() => {
-      onLogin(email, password).then(() => {
-        router.push('/');
-      });
+      onLogin(email, password)
+        .then(() => {
+          router.push('/');
+        })
+        .catch((error) => {
+          toast.error(error);
+        });
     });
   };
 

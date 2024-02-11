@@ -1,3 +1,5 @@
+import { AuctionStatus } from '@/lib/models';
+
 export function validateEmail(email: string) {
   return String(email)
     .toLowerCase()
@@ -18,3 +20,26 @@ export const replaceUrl = (query: unknown, route?: string) => {
     .replace(/[{}"']/g, '')
     .replace(/[:]/g, '=')}`;
 };
+
+export function dateToString(date: Date) {
+  const newDate = new Date(date);
+
+  const day = newDate.getDate().toString().padStart(2, '0');
+  const month = (newDate.getMonth() + 1).toString().padStart(2, '0');
+  const year = newDate.getFullYear();
+
+  return `${day}.${month}.${year}`;
+}
+
+export function toBase64(file: File) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+  });
+}
+
+export function enumToArrayValues(enumerable: object) {
+  return Object.values(enumerable).filter((key) => !isNaN(Number(AuctionStatus[key as number])));
+}

@@ -11,7 +11,7 @@ interface PageProps {
   };
 }
 
-export default async function Page({ searchParams }: PageProps) {
+export default async function HomePage({ searchParams }: PageProps) {
   return (
     <S.SearchSection>
       <Sidebar

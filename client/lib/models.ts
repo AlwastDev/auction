@@ -4,21 +4,19 @@ export enum AuctionStatus {
   FINISHED = 2,
 }
 
-export interface Entity {
-  id: string;
-}
-
-export interface User extends Entity {
+export interface User {
   id: string;
   login: string;
   createdAt: Date;
   updatedAt: Date;
 }
 
-export interface Auction extends Entity {
+export interface Auction {
+  id: string;
   status: AuctionStatus;
   userId: string;
   description: string;
+  userIsOwner: boolean;
 
   lastRate: Rate;
   rates: Rate[];
@@ -29,12 +27,14 @@ export interface Auction extends Entity {
   createdAt: Date;
 }
 
-export interface Rate extends Entity {
+export interface Rate {
+  id: string;
   userId: string;
   rate: number;
   createdAt: Date;
 }
 
-export interface Image extends Entity {
+export interface Image {
+  id?: string;
   source: string;
 }

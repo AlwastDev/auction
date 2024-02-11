@@ -8,6 +8,8 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children?: React.ReactNode;
   width?: string;
   height?: string;
+  $borderRadius?: string;
+  $backgroundColor?: string;
 }
 
 export const Button: FC<ButtonProps> = (props) => {
