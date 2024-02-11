@@ -5,11 +5,10 @@ import { useRouter } from 'next/navigation';
 import { ArrowRight } from 'lucide-react';
 
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
-import { getPaginatedAuctions } from '../../../../store/getAuctionsSlice';
+import { getPaginatedAuctions } from '@/store/getAuctionsSlice';
 import { formatDate, replaceUrl } from '@/lib/utils';
 import { Pagination } from '@/components/pagination/pagination';
 import { Loader } from '@/components/loader/loader';
-import { AuctionPrice } from './mainContent.styled';
 
 import * as S from './main-content.styled';
 
