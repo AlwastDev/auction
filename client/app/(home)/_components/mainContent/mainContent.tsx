@@ -13,6 +13,7 @@ import { Pagination } from '@/components/pagination/pagination';
 import * as S from './mainContent.styled';
 import { ArrowRight } from 'lucide-react';
 import { AuctionInfoContainer } from './mainContent.styled';
+import { Loader } from '@/components/loader/loader';
 
 export const MainContent: FC<{ pageNumber: number }> = ({ pageNumber }) => {
   const { replace } = useRouter();
@@ -46,36 +47,39 @@ export const MainContent: FC<{ pageNumber: number }> = ({ pageNumber }) => {
   };
 
   return (
-    <S.ContentSection>
-      {!!auctions && !error.length && (
-        <>
-          <S.AuctionsList>
-            {auctions.map((item, index) => (
-              <S.AuctionListElement key={item.id}>
-                <S.AuctionInfoContainer>
-                  <S.AuctionImage src={item.images[0].source} alt={`Лот ${index}`} width={296} height={270} />
-                  <S.AuctionContentContainer>
-                    <S.AuctionDescription>{item.description}</S.AuctionDescription>
-                    <S.AuctionDescription>{formatDate(item.createdAt)}</S.AuctionDescription>
-                  </S.AuctionContentContainer>
-                </S.AuctionInfoContainer>
-                <S.ListItemLink href={`/${item.id}`}>
-                  <ArrowRight size={42} />
-                </S.ListItemLink>
-              </S.AuctionListElement>
-            ))}
-          </S.AuctionsList>
-          <S.PaginationContainer>
-            <Pagination
-              currentPage={page}
-              onPreviousPage={onPreviousPage}
-              onNextPage={onNextPage}
-              setPageNumber={setPageNumber}
-              lasPage={totalPage}
-            />
-          </S.PaginationContainer>
-        </>
-      )}
-    </S.ContentSection>
+    <>
+      {loading && <Loader />}
+      <S.ContentSection>
+        {!!auctions && !error.length && (
+          <>
+            <S.AuctionsList>
+              {auctions.map((item, index) => (
+                <S.AuctionListElement key={item.id}>
+                  <S.AuctionInfoContainer>
+                    <S.AuctionImage src={item.images[0].source} alt={`Лот ${index}`} width={296} height={270} />
+                    <S.AuctionContentContainer>
+                      <S.AuctionDescription>{item.description}</S.AuctionDescription>
+                      <S.AuctionDescription>{formatDate(item.createdAt)}</S.AuctionDescription>
+                    </S.AuctionContentContainer>
+                  </S.AuctionInfoContainer>
+                  <S.ListItemLink href={`/${item.id}`}>
+                    <ArrowRight size={42} />
+                  </S.ListItemLink>
+                </S.AuctionListElement>
+              ))}
+            </S.AuctionsList>
+            <S.PaginationContainer>
+              <Pagination
+                currentPage={page}
+                onPreviousPage={onPreviousPage}
+                onNextPage={onNextPage}
+                setPageNumber={setPageNumber}
+                lasPage={totalPage}
+              />
+            </S.PaginationContainer>
+          </>
+        )}
+      </S.ContentSection>
+    </>
   );
 };
