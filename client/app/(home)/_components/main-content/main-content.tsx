@@ -47,7 +47,6 @@ export const MainContent: FC<MainContentProps> = ({ pageNumber }) => {
     setPage(pageNumber);
   };
 
-  console.log(auctions);
   return (
     <>
       {loading && <Loader />}
